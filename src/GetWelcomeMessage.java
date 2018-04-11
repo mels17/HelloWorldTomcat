@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.stream.Collectors;
 
 @WebServlet(name = "GetWelcomeMessage", urlPatterns = {""})
 public class GetWelcomeMessage extends HttpServlet {
@@ -50,7 +49,13 @@ public class GetWelcomeMessage extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
 //        System.out.println(request.getReader().lines().collect(Collectors.joining()));
-        writer.println(name[0]);
+        try {
+            writer.println(NameUndecided.deleteNameFromDatabase(name[0]));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        response.setStatus(200);
 
     }
 }

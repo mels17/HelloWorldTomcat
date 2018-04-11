@@ -10,6 +10,8 @@ public class NameUndecided {
     static Connection connection = DatabaseInitialization.init();
     static DatabaseOperations dbOps = new DatabaseOperations(connection);
 
+    static final String ETERNAL_NAME = "Mel";
+
     private static String getCurrentDateAsString() {
         DateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
         return dateFormat.format(new Date());
@@ -37,6 +39,13 @@ public class NameUndecided {
 
     public static String addNameToDatabase(String name) throws SQLException {
         dbOps.addName(name);
+        return getOutputString();
+    }
+
+    public static String deleteNameFromDatabase(String name) throws SQLException {
+        if(!name.equals(ETERNAL_NAME)) {
+            dbOps.deleteName(name);
+        }
         return getOutputString();
     }
 
