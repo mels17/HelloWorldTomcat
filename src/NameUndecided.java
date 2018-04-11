@@ -31,7 +31,16 @@ public class NameUndecided {
                 getCurrentDateAsString();
     }
 
-    public static void main(String... args) throws SQLException {
-        System.out.println(getAllNames());
+    public static void closeConnections() throws SQLException {
+        DatabaseInitialization.closeDatabaseConnection(connection);
     }
+
+    public static String addNameToDatabase(String name) throws SQLException {
+        dbOps.addName(name);
+        return getOutputString();
+    }
+
+//    public static void main(String... args) throws SQLException {
+//        System.out.println(getAllNames());
+//    }
 }

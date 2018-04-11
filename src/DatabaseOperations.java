@@ -22,4 +22,18 @@ public class DatabaseOperations {
         statement.close();
         return allNames;
     }
+
+    public List<String> addName(String name) throws SQLException {
+        System.out.println(name);
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO NAMES(NAME) VALUES (?)");
+
+        if(!getAllNames().contains(name)) {
+            System.out.println("Entered here");
+            preparedStatement.setString(1, name);
+            preparedStatement.executeUpdate();
+        }
+        preparedStatement.close();
+        System.out.println(getAllNames().size());
+        return getAllNames();
+    }
 }

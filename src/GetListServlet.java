@@ -9,9 +9,6 @@ import java.sql.SQLException;
 
 @WebServlet(name = "GetNameServlet", urlPatterns = {"/list"})
 public class GetListServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
