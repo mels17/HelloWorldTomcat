@@ -1,3 +1,5 @@
+package helloWorld;
+
 import java.sql.*;
 
 public class DatabaseInitialization {

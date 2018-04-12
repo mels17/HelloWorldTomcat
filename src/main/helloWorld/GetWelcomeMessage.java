@@ -1,3 +1,5 @@
+package helloWorld;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -7,7 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 
-@WebServlet(name = "GetWelcomeMessage", urlPatterns = {""})
+@WebServlet(name = "helloWorld.GetWelcomeMessage", urlPatterns = {""})
 public class GetWelcomeMessage extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter writer = response.getWriter();

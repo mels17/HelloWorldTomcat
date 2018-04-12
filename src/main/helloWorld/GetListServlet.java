@@ -1,3 +1,7 @@
+package helloWorld;
+
+import helloWorld.DatabaseController;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

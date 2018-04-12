@@ -1,4 +1,4 @@
-package main;
+package helloWorld;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
