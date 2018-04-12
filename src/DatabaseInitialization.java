@@ -13,6 +13,7 @@ public class DatabaseInitialization {
                             "admin", "password");
             System.out.println("Database connection successful.");
         } catch (Exception e) {
+            System.out.println("Database connection failed...");
             e.printStackTrace();
             System.err.println(e.getClass().getName()+": "+e.getMessage());
             System.exit(0);

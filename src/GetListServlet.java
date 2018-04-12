@@ -16,7 +16,7 @@ public class GetListServlet extends HttpServlet {
 
         PrintWriter writer = response.getWriter();
         try {
-            writer.println(NameUndecided.getAllNames());
+            writer.println(DatabaseController.getAllNames());
         } catch (SQLException e) {
             e.printStackTrace();
         }

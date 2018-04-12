@@ -16,7 +16,7 @@ public class GetWelcomeMessage extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
         try {
-            writer.println(NameUndecided.getOutputString());
+            writer.println(DatabaseController.getOutputString());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -31,7 +31,7 @@ public class GetWelcomeMessage extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
         try {
-            writer.println(NameUndecided.addNameToDatabase(name[0]));
+            writer.println(DatabaseController.addNameToDatabase(name[0]));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -40,22 +40,16 @@ public class GetWelcomeMessage extends HttpServlet {
     }
 
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        System.out.println("Here");
-        System.out.println(request);
         String[] name = request.getParameterValues("name");
         PrintWriter writer = response.getWriter();
 
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
-
-//        System.out.println(request.getReader().lines().collect(Collectors.joining()));
         try {
-            writer.println(NameUndecided.deleteNameFromDatabase(name[0]));
+            writer.println(DatabaseController.deleteNameFromDatabase(name[0]));
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         response.setStatus(200);
-
     }
 }
