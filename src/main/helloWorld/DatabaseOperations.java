@@ -34,7 +34,7 @@ public class DatabaseOperations implements Repository {
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement("INSERT INTO NAMES(NAME) VALUES (?)");
-            if(!getAllNames().contains(name)) {
+            if(!getAllNames().contains(name) && !name.isEmpty()) {
                 preparedStatement.setString(1, name);
                 preparedStatement.executeUpdate();
             }

@@ -6,7 +6,7 @@ public class DatabaseInitialization {
     public static Connection init() {
         Connection connection = null;
 
-        System.out.print("Connecting to database...");
+        System.out.println("Connecting to database...");
         try {
             Class.forName("org.postgresql.Driver");
             connection = DriverManager
