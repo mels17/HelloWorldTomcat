@@ -5,13 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseOperations {
-    Connection connection;
-
-    public DatabaseOperations(Connection connection) {
-        this.connection = connection;
-    }
-
-    public List<String> getAllNames() throws SQLException {
+    public static List<String> getAllNames(Connection connection) throws SQLException {
         Statement statement = connection.createStatement();
         List<String> allNames = new ArrayList<String>();
 
@@ -25,24 +19,24 @@ public class DatabaseOperations {
         return allNames;
     }
 
-    public List<String> addName(String name) throws SQLException {
+    public static List<String> addName(Connection connection, String name) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO NAMES(NAME) VALUES (?)");
 
-        if(!getAllNames().contains(name)) {
+        if(!getAllNames(connection).contains(name)) {
             preparedStatement.setString(1, name);
             preparedStatement.executeUpdate();
         }
         preparedStatement.close();
-        return getAllNames();
+        return getAllNames(connection);
     }
 
-    public List<String> deleteName(String name) throws SQLException {
+    public static List<String> deleteName(Connection connection, String name) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM NAMES WHERE NAME = ?");
 
         preparedStatement.setString(1, name);
         preparedStatement.executeUpdate();
         preparedStatement.close();
 
-        return getAllNames();
+        return getAllNames(connection);
     }
 }

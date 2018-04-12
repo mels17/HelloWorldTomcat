@@ -3,7 +3,6 @@ package helloWorld;
 import java.sql.*;
 
 public class DatabaseInitialization {
-
     public static Connection init() {
         Connection connection = null;
 

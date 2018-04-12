@@ -7,21 +7,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
+import java.util.Date;
 
 @WebServlet(name = "helloWorld.GetWelcomeMessage", urlPatterns = {""})
 public class GetWelcomeMessage extends HttpServlet {
+    DatabaseController dbController = new DatabaseController(DatabaseInitialization.init());
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter writer = response.getWriter();
 
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
 
-        try {
-            writer.println(DatabaseController.getOutputString());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
+        writer.println(dbController.getOutputString(new Date()));
+
         response.setStatus(200);
     }
 
@@ -32,26 +32,21 @@ public class GetWelcomeMessage extends HttpServlet {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
 
-        try {
-            writer.println(DatabaseController.addNameToDatabase(name[0]));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        writer.println(dbController.addNameToDatabase(name[0], new Date()));
 
         response.setStatus(201);
     }
 
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println("Here");
         String[] name = request.getParameterValues("name");
         PrintWriter writer = response.getWriter();
 
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
-        try {
-            writer.println(DatabaseController.deleteNameFromDatabase(name[0]));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
+        writer.println(dbController.deleteNameFromDatabase(name[0], new Date()));
+
         response.setStatus(200);
     }
 }

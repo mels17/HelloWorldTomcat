@@ -2,39 +2,56 @@ package helloWorld;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class DatabaseController {
 
-    static Connection connection = DatabaseInitialization.init();
-    static DatabaseOperations dbOps = new DatabaseOperations(connection);
+    DatabaseOperations dbOps;
+    Connection connection;
+    final String ETERNAL_NAME = "Mel";
 
-    static final String ETERNAL_NAME = "Mel";
-
-    public static String getAllNames() throws SQLException {
-        return (dbOps.getAllNames())
-                .stream()
-                .collect(Collectors.joining(", "));
+    public DatabaseController(Connection connection) {
+        this.connection = connection;
     }
 
-    public static String getOutputString() throws SQLException {
-        return "Hello " +  getAllNames() + " - the time on the server is " + DateTimeFormatter.getCurrentTimeAsString() + " on " +
-                DateTimeFormatter.getCurrentDateAsString();
-    }
-
-    public static String addNameToDatabase(String name) throws SQLException {
-        dbOps.addName(name);
-        return getOutputString();
-    }
-
-    public static String deleteNameFromDatabase(String name) throws SQLException {
-        if(!name.equals(ETERNAL_NAME)) {
-            dbOps.deleteName(name);
+    public String getAllNames() {
+        try {
+            return (dbOps.getAllNames(connection))
+                    .stream()
+                    .collect(Collectors.joining(", "));
+        } catch (SQLException e) {
+            return String.valueOf(e.getStackTrace());
         }
-        return getOutputString();
     }
 
-    public static void closeConnections() throws SQLException {
-        DatabaseInitialization.closeDatabaseConnection(connection);
+    public String getOutputString(Date date) {
+        return "Hello " +  getAllNames() + " - the time on the server is " + DateTimeFormatter.getCurrentTimeAsString(date) + " on " +
+                DateTimeFormatter.getCurrentDateAsString(date);
     }
+
+    public String addNameToDatabase(String name, Date date) {
+        try {
+            dbOps.addName(connection, name);
+        } catch (SQLException e) {
+            return String.valueOf(e.getStackTrace());
+        }
+        return getOutputString(date);
+    }
+
+    public String deleteNameFromDatabase(String name, Date date) {
+        if(!name.equals(ETERNAL_NAME)) {
+            try {
+                dbOps.deleteName(connection, name);
+            } catch (SQLException e) {
+                return String.valueOf(e.getStackTrace());
+            }
+        }
+        return getOutputString(date);
+    }
+//
+//    public static void closeConnections() throws SQLException {
+//        DatabaseInitialization.closeDatabaseConnection(connection);
+//    }
 }
