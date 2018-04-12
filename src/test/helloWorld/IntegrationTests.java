@@ -1,6 +1,5 @@
 package helloWorld;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -77,93 +76,81 @@ public class IntegrationTests {
     }
 
     @Test
-    public void returnsStringWithNewNameAnd200StatusCodeWhenPostRequest() throws ServletException, IOException  {
-        String date = new SimpleDateFormat("dd MMMM yyyy").format(new Date());
-        String time = new SimpleDateFormat("h:mm a").format(new Date()).replace("AM", "am").
-                replace("PM", "pm");
-        String expectedResult = "Hello Mel, Rose, Bob - the time on the server is " + time + " on " + date;
-        int expectedStatusCode = 201;
-        StringBuffer content = new StringBuffer();
-        URL url = new URL("http://localhost:8000");
-        String inputLine;
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-        connection.setRequestMethod("POST");
-
-        Map<String, String> parameters = new HashMap<>();
-        parameters.put("name", "Bob");
-
-        connection.setDoOutput(true);
-        DataOutputStream out = new DataOutputStream(connection.getOutputStream());
-        out.writeBytes(ParameterStringBuilder.getParamsString(parameters));
-        out.flush();
-        out.close();
-
-        int status = connection.getResponseCode();
-
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(connection.getInputStream())
-        );
-
-
-        while((inputLine = in.readLine()) != null) {
-            content.append(inputLine);
-        }
-
-        in.close();
-        connection.disconnect();
-
-        Assert.assertEquals(expectedStatusCode, status);
-        Assert.assertEquals(expectedResult, content.toString());
-    }
-
-    @Test
     public void whenDeleteRequestReturnStringWithoutThatNameAndStatusCode200() throws ServletException, IOException  {
         String date = new SimpleDateFormat("dd MMMM yyyy").format(new Date());
         String time = new SimpleDateFormat("h:mm a").format(new Date()).replace("AM", "am").
                 replace("PM", "pm");
-        String expectedResult = "Hello Mel, Rose - the time on the server is " + time + " on " + date;
-        int expectedStatusCode = 201;
-        StringBuffer content = new StringBuffer();
-        URL url = new URL("http://localhost:8000");
-        String inputLine;
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        String expectedPostResult = "Hello Mel, Rose, DeleteName - the time on the server is " + time + " on " + date;
+        String expectedDeleteResult = "Hello Mel, Rose - the time on the server is " + time + " on " + date;
+        int expectedPostStatusCode = 201;
+        int expectedDeleteStatusCode = 200;
+        StringBuffer postContent = new StringBuffer();
 
-        connection.setDoOutput(true);
-        connection.setRequestMethod("DELETE");
-        connection.connect();
+        String inputLine;
+
+        URL postUrl = new URL("http://localhost:8000");
+        HttpURLConnection postConnection = (HttpURLConnection) postUrl.openConnection();
+
+        postConnection.setRequestMethod("POST");
 
         Map<String, String> parameters = new HashMap<>();
-        parameters.put("name", "Bob");
+        parameters.put("name", "DeleteName");
 
-        DataOutputStream out = new DataOutputStream(connection.getOutputStream());
+        postConnection.setDoOutput(true);
+        DataOutputStream out = new DataOutputStream(postConnection.getOutputStream());
         out.writeBytes(ParameterStringBuilder.getParamsString(parameters));
         out.flush();
         out.close();
 
-        System.out.println("REached here.");
+        int status = postConnection.getResponseCode();
 
-        int status = connection.getResponseCode();
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(postConnection.getInputStream())
+        );
 
-        System.out.println("here");
+
+        while((inputLine = in.readLine()) != null) {
+            postContent.append(inputLine);
+        }
+
+        in.close();
+
+        Assert.assertEquals(expectedPostStatusCode, status);
+        Assert.assertEquals(expectedPostResult, postContent.toString());
+
+        postConnection.disconnect();
+
+
+        /**
+         * Test for delete
+         */
+        URL deleteURL = new URL("http://localhost:8000?name=DeleteName");
+
+        HttpURLConnection deleteConnection = (HttpURLConnection) deleteURL.openConnection();
+
+        deleteConnection.setDoOutput(true);
+        deleteConnection.setRequestMethod("DELETE");
+
+
+        int deleteStatusCode = deleteConnection.getResponseCode();
+        StringBuffer deleteContent = new StringBuffer();
+
         try {
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(connection.getInputStream())
+            BufferedReader inDel = new BufferedReader(
+                    new InputStreamReader(deleteConnection.getInputStream())
             );
-            while((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
+            while((inputLine = inDel.readLine()) != null) {
+                deleteContent.append(inputLine);
             }
-
-
-            in.close();
+            inDel.close();
         }catch (Exception e) {
             e.printStackTrace();
         }
 
-        connection.disconnect();
+        deleteConnection.disconnect();
 
 
-        Assert.assertEquals(expectedStatusCode, status);
-        Assert.assertEquals(expectedResult, content.toString());
+        Assert.assertEquals(expectedDeleteStatusCode, deleteStatusCode);
+        Assert.assertEquals(expectedDeleteResult, deleteContent.toString());
     }
 }

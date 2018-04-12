@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 
 @WebServlet(name = "GetNameServlet", urlPatterns = {"/list"})
 public class GetListServlet extends HttpServlet {
-    DatabaseController dbController = new DatabaseController(DatabaseInitialization.init());
+    DatabaseController dbController = new DatabaseController(new DatabaseOperations());
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");

@@ -4,39 +4,65 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DatabaseOperations {
-    public static List<String> getAllNames(Connection connection) throws SQLException {
-        Statement statement = connection.createStatement();
+public class DatabaseOperations implements Repository {
+
+    private Connection connection;
+
+    public DatabaseOperations() {
+        this.connection = DatabaseInitialization.init();
+    }
+
+    public List<String> getAllNames(){
+        Statement statement = null;
         List<String> allNames = new ArrayList<String>();
+        try {
+            statement = connection.createStatement();
 
-        ResultSet rs = statement.executeQuery("SELECT * FROM NAMES;");
-        while (rs.next()) {
-            allNames.add(rs.getString("NAME"));
+            ResultSet rs = statement.executeQuery("SELECT * FROM NAMES;");
+            while (rs.next()) {
+                allNames.add(rs.getString("NAME"));
+            }
+            rs.close();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        rs.close();
-        statement.close();
         return allNames;
     }
 
-    public static List<String> addName(Connection connection, String name) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO NAMES(NAME) VALUES (?)");
-
-        if(!getAllNames(connection).contains(name)) {
-            preparedStatement.setString(1, name);
-            preparedStatement.executeUpdate();
+    public List<String> addName(String name) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement("INSERT INTO NAMES(NAME) VALUES (?)");
+            if(!getAllNames().contains(name)) {
+                preparedStatement.setString(1, name);
+                preparedStatement.executeUpdate();
+            }
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ArrayList<String>();
         }
-        preparedStatement.close();
-        return getAllNames(connection);
+        return getAllNames();
     }
 
-    public static List<String> deleteName(Connection connection, String name) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM NAMES WHERE NAME = ?");
+    public List<String> deleteName(String name){
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement("DELETE FROM NAMES WHERE NAME = ?");
+            preparedStatement.setString(1, name);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ArrayList<String>();
+        }
 
-        preparedStatement.setString(1, name);
-        preparedStatement.executeUpdate();
-        preparedStatement.close();
+        return getAllNames();
+    }
 
-        return getAllNames(connection);
+
+    public void closeConnections() throws SQLException {
+        DatabaseInitialization.closeDatabaseConnection(connection);
     }
 }

@@ -9,9 +9,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 
-@WebServlet(name = "helloWorld.GetWelcomeMessage", urlPatterns = {""})
+@WebServlet(name = "GetWelcomeMessage", urlPatterns = {""})
 public class GetWelcomeMessage extends HttpServlet {
-    DatabaseController dbController = new DatabaseController(DatabaseInitialization.init());
+    DatabaseController dbController = new DatabaseController(new DatabaseOperations());
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter writer = response.getWriter();
@@ -32,7 +32,7 @@ public class GetWelcomeMessage extends HttpServlet {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
 
-        writer.println(dbController.addNameToDatabase(name[0], new Date()));
+        writer.println(dbController.addName(name[0], new Date()));
 
         response.setStatus(201);
     }
@@ -45,7 +45,7 @@ public class GetWelcomeMessage extends HttpServlet {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
 
-        writer.println(dbController.deleteNameFromDatabase(name[0], new Date()));
+        writer.println(dbController.deleteName(name[0], new Date()));
 
         response.setStatus(200);
     }

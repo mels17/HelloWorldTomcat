@@ -1,29 +1,21 @@
 package helloWorld;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Date;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class DatabaseController {
 
-    DatabaseOperations dbOps;
-    Connection connection;
+    Repository repository;
     final String ETERNAL_NAME = "Mel";
 
-    public DatabaseController(Connection connection) {
-        this.connection = connection;
+    public DatabaseController(Repository repository) {
+        this.repository = repository;
     }
 
     public String getAllNames() {
-        try {
-            return (dbOps.getAllNames(connection))
-                    .stream()
-                    .collect(Collectors.joining(", "));
-        } catch (SQLException e) {
-            return String.valueOf(e.getStackTrace());
-        }
+        return (repository.getAllNames())
+                .stream()
+                .collect(Collectors.joining(", "));
     }
 
     public String getOutputString(Date date) {
@@ -31,27 +23,15 @@ public class DatabaseController {
                 DateTimeFormatter.getCurrentDateAsString(date);
     }
 
-    public String addNameToDatabase(String name, Date date) {
-        try {
-            dbOps.addName(connection, name);
-        } catch (SQLException e) {
-            return String.valueOf(e.getStackTrace());
-        }
+    public String addName(String name, Date date) {
+        repository.addName(name);
         return getOutputString(date);
     }
 
-    public String deleteNameFromDatabase(String name, Date date) {
+    public String deleteName(String name, Date date) {
         if(!name.equals(ETERNAL_NAME)) {
-            try {
-                dbOps.deleteName(connection, name);
-            } catch (SQLException e) {
-                return String.valueOf(e.getStackTrace());
-            }
+            repository.deleteName(name);
         }
         return getOutputString(date);
     }
-//
-//    public static void closeConnections() throws SQLException {
-//        DatabaseInitialization.closeDatabaseConnection(connection);
-//    }
 }
