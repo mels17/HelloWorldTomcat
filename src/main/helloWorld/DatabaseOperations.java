@@ -9,7 +9,7 @@ public class DatabaseOperations implements Repository {
     private Connection connection;
 
     public DatabaseOperations() throws SQLException, ClassNotFoundException {
-        this.connection = DatabaseInitialization.init();
+        this.connection = DatabaseInitialization.init("worldnames", "admin", "password");
     }
 
     public List<String> getAllNames() throws Exception {

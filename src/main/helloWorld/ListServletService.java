@@ -1,14 +1,15 @@
 package helloWorld;
 
-import java.sql.SQLException;
-
 public class ListServletService {
 
     DatabaseController dbController;
     String error = "";
     int statusCode = 200;
 
+
+
     public ListServletService() {
+        System.out.println("hello");
         try {
             dbController = new DatabaseController(new DatabaseOperations());
         } catch (Exception e) {
