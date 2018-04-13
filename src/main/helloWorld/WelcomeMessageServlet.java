@@ -7,11 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
 
-@WebServlet(name = "GetWelcomeMessage", urlPatterns = {""})
-public class GetWelcomeMessage extends HttpServlet {
-    DatabaseController dbController = new DatabaseController(new DatabaseOperations());
+@WebServlet(name = "WelcomeMessage", urlPatterns = {""})
+public class WelcomeMessageServlet extends HttpServlet {
+    WelcomeMessageServletService service = new WelcomeMessageServletService();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter writer = response.getWriter();
@@ -20,9 +19,9 @@ public class GetWelcomeMessage extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
 
-        writer.println(dbController.getOutputString(new Date()));
+        writer.println(service.getResponseStringForGivenRequest("get", ""));
 
-        response.setStatus(200);
+        response.setStatus(service.getStatusCodeForGivenRequest("get"));
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,9 +31,9 @@ public class GetWelcomeMessage extends HttpServlet {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
 
-        writer.println(dbController.addName(name[0], new Date()));
+        writer.println(service.getResponseStringForGivenRequest("post", name[0]));
 
-        response.setStatus(201);
+        response.setStatus(service.getStatusCodeForGivenRequest("post"));
     }
 
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -45,8 +44,8 @@ public class GetWelcomeMessage extends HttpServlet {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
 
-        writer.println(dbController.deleteName(name[0], new Date()));
+        writer.println(service.getResponseStringForGivenRequest("delete", name[0]));
 
-        response.setStatus(200);
+        response.setStatus(service.getStatusCodeForGivenRequest("delete"));
     }
 }

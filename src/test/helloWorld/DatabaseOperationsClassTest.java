@@ -14,7 +14,7 @@ public class DatabaseOperationsClassTest {
     DatabaseOperations dbOps;
 
     @Before
-    public void setUp() {
+    public void setUp() throws SQLException, ClassNotFoundException {
         dbOps = new DatabaseOperations();
     }
 
@@ -25,14 +25,14 @@ public class DatabaseOperationsClassTest {
 
     // The database at this point has two entries - Mel and Rose
     @Test
-    public void getsAllNamesFromTheDatabaseSuccessfully() {
+    public void getsAllNamesFromTheDatabaseSuccessfully() throws Exception {
         List<String> expectedResult = Arrays.asList("Mel", "Rose");
 
         Assert.assertEquals(expectedResult, dbOps.getAllNames());
     }
 
     @Test
-    public void givenNameReturnsListWithAddedName() {
+    public void givenNameReturnsListWithAddedName() throws Exception {
 
         List<String> expectedResult = Arrays.asList("Mel", "Rose", "PostName");
 
@@ -41,7 +41,7 @@ public class DatabaseOperationsClassTest {
     }
 
     @Test
-    public void givenNameDeletesThatName() {
+    public void givenNameDeletesThatName() throws Exception {
         List<String> expectedResult = Arrays.asList("Mel", "Rose");
 
         dbOps.addName("DeleteName");

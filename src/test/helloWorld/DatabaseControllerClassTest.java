@@ -35,7 +35,7 @@ public class DatabaseControllerClassTest {
     }
 
     @Test
-    public void getsAllTheNamesAsStringSeperatedByCommaFromTheRepositorySuccessfully() {
+    public void getsAllTheNamesAsStringSeperatedByCommaFromTheRepositorySuccessfully() throws Exception {
         String expectedResult = "NameOne, NameTwo";
 
         mockRepo.setList(Arrays.asList("NameOne", "NameTwo"));
@@ -44,7 +44,7 @@ public class DatabaseControllerClassTest {
     }
 
     @Test
-    public void returnsEmptyStringWhenRepoIsEmpty() {
+    public void returnsEmptyStringWhenRepoIsEmpty() throws Exception {
         String expectedResult = "";
 
         mockRepo.setList(new ArrayList<String>());
@@ -53,7 +53,7 @@ public class DatabaseControllerClassTest {
     }
 
     @Test
-    public void whenRepoHasJustOneEntryReturnsThatNameWithoutComma() {
+    public void whenRepoHasJustOneEntryReturnsThatNameWithoutComma() throws Exception {
         String expectedResult = "NameOne";
 
         mockRepo.setList(Arrays.asList("NameOne"));
@@ -62,7 +62,7 @@ public class DatabaseControllerClassTest {
     }
 
     @Test
-    public void whenRepoHasOneNameReturnsFormattedWelcomeMessageSuccessfully() {
+    public void whenRepoHasOneNameReturnsFormattedWelcomeMessageSuccessfully() throws Exception {
         String expectedResult = "Hello NameOne - the time on the server is " + timeString +
                 " on " + dateString;
 
@@ -72,7 +72,7 @@ public class DatabaseControllerClassTest {
     }
 
     @Test
-    public void whenRepoHasTwoNamesReturnsFormattedWelcomeMessageWithCommasBetweenNamesSuccessfully() {
+    public void whenRepoHasTwoNamesReturnsFormattedWelcomeMessageWithCommasBetweenNamesSuccessfully() throws Exception {
         String expectedResult = "Hello NameOne, NameTwo - the time on the server is " + timeString +
                 " on " + dateString;
 
@@ -82,7 +82,7 @@ public class DatabaseControllerClassTest {
     }
 
     @Test
-    public void whenEmptyRepoReturnsFormattedWelcomeMessageWithoutAnyNames() {
+    public void whenEmptyRepoReturnsFormattedWelcomeMessageWithoutAnyNames() throws Exception {
         String expectedResult = "Hello  - the time on the server is " + timeString +
                 " on " + dateString;
 
@@ -92,7 +92,7 @@ public class DatabaseControllerClassTest {
     }
 
     @Test
-    public void whenANameIsAddedToARepoWithOneEntryReturnsTheFormattedStringContainingTheName() {
+    public void whenANameIsAddedToARepoWithOneEntryReturnsTheFormattedStringContainingTheName() throws Exception {
         String expectedResult = "Hello NameOne, NameTwo - the time on the server is " + timeString +
                 " on " + dateString;
 
@@ -102,7 +102,7 @@ public class DatabaseControllerClassTest {
     }
 
     @Test
-    public void whenEmptyStringIsGivenReturnsTheFormattedStringWithTheEntryAlreadyInTheRepo() {
+    public void whenEmptyStringIsGivenReturnsTheFormattedStringWithTheEntryAlreadyInTheRepo() throws Exception {
         String expectedResult = "Hello NameOne - the time on the server is " + timeString +
                 " on " + dateString;
 
@@ -112,7 +112,7 @@ public class DatabaseControllerClassTest {
     }
 
     @Test
-    public void whenStringGivenReturnsFormattedStringWithoutName() {
+    public void whenStringGivenReturnsFormattedStringWithoutName() throws Exception {
         String expectedResult = "Hello NameOne - the time on the server is " + timeString +
                 " on " + dateString;
 
@@ -122,7 +122,7 @@ public class DatabaseControllerClassTest {
     }
 
     @Test
-    public void whenEternalNameGivenReturnsFormattedStringWithoutDeletingIt() {
+    public void whenEternalNameGivenReturnsFormattedStringWithoutDeletingIt() throws Exception {
         String expectedResult = "Hello Mel - the time on the server is " + timeString +
                 " on " + dateString;
 

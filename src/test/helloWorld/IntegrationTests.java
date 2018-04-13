@@ -1,6 +1,7 @@
 package helloWorld;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import javax.servlet.*;
@@ -13,6 +14,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class IntegrationTests {
+
+    String date;
+    String time;
+    @Before
+    public void setUp() {
+        date = new SimpleDateFormat("dd MMMM yyyy").format(new Date());
+        time = new SimpleDateFormat("h:mm a").format(new Date()).replace("AM", "am").
+                replace("PM", "pm");
+    }
 
     @Test
     public void returnListSuccessfullyAndStatusCode200WhenGetRequest() throws ServletException, IOException {
@@ -45,9 +55,6 @@ public class IntegrationTests {
 
     @Test
     public void getWelcomeMessageSuccessfullyWithStatusCode200WhenGetRequest() throws ServletException, IOException {
-        String date = new SimpleDateFormat("dd MMMM yyyy").format(new Date());
-        String time = new SimpleDateFormat("h:mm a").format(new Date()).replace("AM", "am").
-                replace("PM", "pm");
         String expectedResult = "Hello Mel, Rose - the time on the server is " + time + " on " + date;
         int expectedStatusCode = 200;
         StringBuffer content = new StringBuffer();
@@ -76,10 +83,7 @@ public class IntegrationTests {
     }
 
     @Test
-    public void whenDeleteRequestReturnStringWithoutThatNameAndStatusCode200() throws ServletException, IOException  {
-        String date = new SimpleDateFormat("dd MMMM yyyy").format(new Date());
-        String time = new SimpleDateFormat("h:mm a").format(new Date()).replace("AM", "am").
-                replace("PM", "pm");
+    public void whenPostRequestReturnListWithNewNameStatusCode201AndDeleteRequestReturnStringWithoutThatNameAndStatusCode200() throws ServletException, IOException  {
         String expectedPostResult = "Hello Mel, Rose, DeleteName - the time on the server is " + time + " on " + date;
         String expectedDeleteResult = "Hello Mel, Rose - the time on the server is " + time + " on " + date;
         int expectedPostStatusCode = 201;
@@ -152,5 +156,29 @@ public class IntegrationTests {
 
         Assert.assertEquals(expectedDeleteStatusCode, deleteStatusCode);
         Assert.assertEquals(expectedDeleteResult, deleteContent.toString());
+    }
+
+    @Test
+    public void whenEternalNameDeleteRequestReturnListWithoutAltering() throws IOException {
+        URL deleteURL = new URL("http://localhost:8000?name=Mel");
+        HttpURLConnection deleteConnection = (HttpURLConnection) deleteURL.openConnection();
+        StringBuffer deleteContent = new StringBuffer();
+        String inputLine;
+        String expectedDeleteOutput = "Hello Mel, Rose - the time on the server is " + time + " on " + date;
+
+        deleteConnection.setDoOutput(true);
+        deleteConnection.setRequestMethod("DELETE");
+
+        BufferedReader inputDelete = new BufferedReader(
+                new InputStreamReader(deleteConnection.getInputStream())
+        );
+        while((inputLine = inputDelete.readLine()) != null) {
+            deleteContent.append(inputLine);
+        }
+        inputDelete.close();
+
+        deleteConnection.disconnect();
+
+        Assert.assertEquals(expectedDeleteOutput, deleteContent.toString());
     }
 }

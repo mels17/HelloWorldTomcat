@@ -10,16 +10,15 @@ import java.io.PrintWriter;
 
 @WebServlet(name = "GetNameServlet", urlPatterns = {"/list"})
 public class GetListServlet extends HttpServlet {
-    DatabaseController dbController = new DatabaseController(new DatabaseOperations());
-
+    ListServletService listServletService = new ListServletService();
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
 
         PrintWriter writer = response.getWriter();
 
-        writer.println(dbController.getAllNames());
+        writer.println(listServletService.getResponseStringForGetListRequest());
 
-        response.setStatus(200);
+        response.setStatus(listServletService.getStatusCodeForGetListRequest());
     }
 }
