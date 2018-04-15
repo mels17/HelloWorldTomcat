@@ -1,37 +1,44 @@
 package helloWorld;
 
+import java.sql.SQLException;
+
 public class ListServletService {
 
-    DatabaseController dbController;
-    String error = "";
-    int statusCode = 200;
+//    DatabaseController dbController;
+//    String error = "";
+//    int statusCode = 200;
 
 
 
-    public ListServletService() {
-        System.out.println("hello");
+//    public ListServletService() {
+//        System.out.println("hello");
+//        try {
+//            dbController = new DatabaseController(new DatabaseOperations());
+//        } catch (Exception e) {
+//            error = "Cannot connect to database.";
+//            statusCode = 500;
+//        }
+//    }
+
+    public static ServiceResult getList(DatabaseController dbController) {
+        ServiceResult result = new ServiceResult();
+        String responseString = "";
+        int statusCode = 500;
+
         try {
-            dbController = new DatabaseController(new DatabaseOperations());
+            responseString = dbController.getAllNames();
+            statusCode = 200;
+        } catch(SQLException e) {
+            responseString = "Get request failed: Database not found.";
+        } catch(ClassNotFoundException e) {
+            responseString = "Get request failed: Database not found.";
+        } catch(DatabaseDisconnectedException e) {
+            responseString = "Get request failed: Database disconnected";
         } catch (Exception e) {
-            error = "Cannot connect to database.";
-            statusCode = 500;
+            responseString = e.toString();
         }
-    }
-
-    public String getResponseStringForGetListRequest() {
-        if(statusCode == 500) {
-            return error;
-        } else {
-            try {
-                return dbController.getAllNames();
-            } catch (Exception e) {
-                statusCode = 500;
-                return "Cannot access database - Get List Request Denied";
-            }
-        }
-    }
-
-    public int getStatusCodeForGetListRequest() {
-        return statusCode;
+        result.setMessage(responseString);
+        result.setStatusCode(statusCode);
+        return result;
     }
 }

@@ -7,10 +7,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 @WebServlet(name = "WelcomeMessage", urlPatterns = {""})
 public class WelcomeMessageServlet extends HttpServlet {
-    WelcomeMessageServletService service = new WelcomeMessageServletService();
+
+    DatabaseController dbController = new DatabaseController(new DatabaseOperations());
+
+    public WelcomeMessageServlet() throws SQLException, ClassNotFoundException {
+    }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter writer = response.getWriter();
@@ -18,10 +23,10 @@ public class WelcomeMessageServlet extends HttpServlet {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
 
+        ServiceResult result = WelcomeMessageServletService.getName(dbController);
 
-        writer.println(service.getResponseStringForGivenRequest("get", ""));
-
-        response.setStatus(service.getStatusCodeForGivenRequest("get"));
+        writer.println(result.getMessage());
+        response.setStatus(result.getStatusCode());
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -31,9 +36,10 @@ public class WelcomeMessageServlet extends HttpServlet {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
 
-        writer.println(service.getResponseStringForGivenRequest("post", name[0]));
+        ServiceResult result = WelcomeMessageServletService.postName(dbController, name[0]);
 
-        response.setStatus(service.getStatusCodeForGivenRequest("post"));
+        writer.println(result.getMessage());
+        response.setStatus(result.getStatusCode());
     }
 
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -44,8 +50,9 @@ public class WelcomeMessageServlet extends HttpServlet {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
 
-        writer.println(service.getResponseStringForGivenRequest("delete", name[0]));
+        ServiceResult result = WelcomeMessageServletService.deleteName(dbController, name[0]);
 
-        response.setStatus(service.getStatusCodeForGivenRequest("delete"));
+        writer.println(result.getMessage());
+        response.setStatus(result.getStatusCode());
     }
 }

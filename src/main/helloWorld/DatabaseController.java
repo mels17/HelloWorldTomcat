@@ -28,7 +28,7 @@ public class DatabaseController {
         return getOutputString(date);
     }
 
-    public String deleteName(String name, Date date) throws Exception {
+    public String deleteName(String name, Date date) throws Exception  {
         if(!name.equals(ETERNAL_NAME)) {
             repository.deleteName(name);
         }

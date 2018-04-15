@@ -12,7 +12,7 @@ public class DatabaseOperations implements Repository {
         this.connection = DatabaseInitialization.init("worldnames", "admin", "password");
     }
 
-    public List<String> getAllNames() throws Exception {
+    public List<String> getAllNames() throws DatabaseDisconnectedException, SQLException {
         checkConnection();
         Statement statement = null;
         List<String> allNames = new ArrayList<String>();
@@ -28,7 +28,7 @@ public class DatabaseOperations implements Repository {
         return allNames;
     }
 
-    public List<String> addName(String name) throws Exception {
+    public List<String> addName(String name) throws SQLException, DatabaseDisconnectedException {
         checkConnection();
         PreparedStatement preparedStatement = null;
 
@@ -42,7 +42,7 @@ public class DatabaseOperations implements Repository {
         return getAllNames();
     }
 
-    public List<String> deleteName(String name) throws Exception {
+    public List<String> deleteName(String name) throws DatabaseDisconnectedException, SQLException {
         checkConnection();
         PreparedStatement preparedStatement = null;
         preparedStatement = connection.prepareStatement("DELETE FROM NAMES WHERE NAME = ?");
@@ -53,9 +53,9 @@ public class DatabaseOperations implements Repository {
         return getAllNames();
     }
 
-    public void checkConnection() throws Exception {
+    public void checkConnection() throws DatabaseDisconnectedException {
         if (connection == null) {
-            throw new Exception("Database connection not established.");
+            throw new DatabaseDisconnectedException("Database connection not established.");
         }
     }
 
