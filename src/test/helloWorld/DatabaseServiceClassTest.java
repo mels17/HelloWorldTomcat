@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
-public class DatabaseControllerClassTest {
+public class DatabaseServiceClassTest {
 
     MockRepositoryClass mockRepo;
-    DatabaseController dbController;
+    DatabaseService dbController;
     Date date;
     String dateString;
     String timeString;
@@ -20,7 +20,7 @@ public class DatabaseControllerClassTest {
     @Before
     public void setUp() {
         mockRepo = new MockRepositoryClass();
-        dbController = new DatabaseController(mockRepo);
+        dbController = new DatabaseService(mockRepo);
     }
 
     @Before

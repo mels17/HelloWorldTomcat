@@ -12,7 +12,7 @@ import java.sql.SQLException;
 @WebServlet(name = "WelcomeMessage", urlPatterns = {""})
 public class WelcomeMessageServlet extends HttpServlet {
 
-    DatabaseController dbController = new DatabaseController(new DatabaseOperations());
+    DatabaseService dbController = new DatabaseService(new DatabaseController());
 
     public WelcomeMessageServlet() throws SQLException, ClassNotFoundException {
     }

@@ -4,17 +4,17 @@ import java.sql.SQLException;
 import java.util.Date;
 
 public class WelcomeMessageServletService {
-    public static ServiceResult getName(DatabaseController dbController) {
+    public static ServiceResult getName(Service dbService) {
         ServiceResult result = new ServiceResult();
         String responseString = "";
         int statusCode = 500;
         try {
-            responseString = dbController.getOutputString(new Date());
+            responseString = dbService.getOutputString(new Date());
             statusCode = 200;
         } catch (SQLException e) {
             responseString = "Get request failed: Database Not Found.";
         } catch (ClassNotFoundException e) {
-            responseString = "Get request failed: Database Not Found";
+            responseString = "Get request failed: Database Not Found.";
         } catch(DatabaseDisconnectedException e) {
             responseString = "Get request failed: Database disconnected.";
         } catch (Exception e) {
@@ -25,17 +25,17 @@ public class WelcomeMessageServletService {
         return result;
     }
 
-    public static ServiceResult postName(DatabaseController dbController, String name) {
+    public static ServiceResult postName(Service dbService, String name) {
         ServiceResult result = new ServiceResult();
         String responseString = "";
         int statusCode = 500;
         try {
-            responseString = dbController.addName(name, new Date());
+            responseString = dbService.addName(name, new Date());
             statusCode = 201;
         } catch (SQLException e) {
             responseString = "Post request failed: Database Not Found.";
         } catch (ClassNotFoundException e) {
-            responseString = "Post request failed: Database Not Found";
+            responseString = "Post request failed: Database Not Found.";
         } catch(DatabaseDisconnectedException e) {
             responseString = "Post request failed: Database disconnected.";
         } catch (Exception e) {
@@ -46,17 +46,17 @@ public class WelcomeMessageServletService {
         return result;
     }
 
-    public static ServiceResult deleteName(DatabaseController dbController, String name) {
+    public static ServiceResult deleteName(Service dbService, String name) {
         ServiceResult result = new ServiceResult();
         String responseString = "";
         int statusCode = 500;
         try {
-            responseString = dbController.deleteName(name, new Date());
+            responseString = dbService.deleteName(name, new Date());
             statusCode = 200;
         } catch (SQLException e) {
             responseString = "Delete request failed: Database Not Found.";
         } catch (ClassNotFoundException e) {
-            responseString = "Delete request failed: Database Not Found";
+            responseString = "Delete request failed: Database Not Found.";
         } catch(DatabaseDisconnectedException e) {
             responseString = "Delete request failed: Database disconnected.";
         } catch (Exception e) {

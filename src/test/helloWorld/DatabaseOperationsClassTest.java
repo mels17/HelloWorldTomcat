@@ -11,11 +11,11 @@ import java.util.List;
 
 public class DatabaseOperationsClassTest {
 
-    DatabaseOperations dbOps;
+    DatabaseController dbOps;
 
     @Before
     public void setUp() throws SQLException, ClassNotFoundException {
-        dbOps = new DatabaseOperations();
+        dbOps = new DatabaseController();
     }
 
     @After

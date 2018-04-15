@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 @WebServlet(name = "GetNameServlet", urlPatterns = {"/list"})
 public class GetListServlet extends HttpServlet {
-    DatabaseController dbController = new DatabaseController(new DatabaseOperations());
+    DatabaseService dbController = new DatabaseService(new DatabaseController());
 
     public GetListServlet() throws SQLException, ClassNotFoundException {
     }

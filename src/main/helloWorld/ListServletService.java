@@ -3,13 +3,13 @@ package helloWorld;
 import java.sql.SQLException;
 
 public class ListServletService {
-    public static ServiceResult getList(DatabaseController dbController) {
+    public static ServiceResult getList(Service dbService) {
         ServiceResult result = new ServiceResult();
         String responseString = "";
         int statusCode = 500;
 
         try {
-            responseString = dbController.getAllNames();
+            responseString = dbService.getAllNames();
             statusCode = 200;
         } catch(SQLException e) {
             responseString = "Get request failed: Database not found.";

@@ -1,37 +1,65 @@
 package helloWorld;
 
-import java.util.Date;
-import java.util.stream.Collectors;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class DatabaseController {
+public class DatabaseController implements Repository {
 
-    Repository repository;
-    final String ETERNAL_NAME = "Mel";
+    private Connection connection;
 
-    public DatabaseController(Repository repository) {
-        this.repository = repository;
+    public DatabaseController() throws SQLException, ClassNotFoundException {
+        this.connection = DatabaseInitialization.init("worldnames", "admin", "password");
     }
 
-    public String getAllNames() throws Exception {
-        return (repository.getAllNames())
-                .stream()
-                .collect(Collectors.joining(", "));
-    }
+    public List<String> getAllNames() throws DatabaseDisconnectedException, SQLException {
+        checkConnection();
+        Statement statement = null;
+        List<String> allNames = new ArrayList<String>();
+        statement = connection.createStatement();
 
-    public String getOutputString(Date date) throws Exception{
-        return "Hello " +  getAllNames() + " - the time on the server is " + DateTimeFormatter.getCurrentTimeAsString(date) + " on " +
-                DateTimeFormatter.getCurrentDateAsString(date);
-    }
-
-    public String addName(String name, Date date) throws Exception{
-        repository.addName(name);
-        return getOutputString(date);
-    }
-
-    public String deleteName(String name, Date date) throws Exception  {
-        if(!name.equals(ETERNAL_NAME)) {
-            repository.deleteName(name);
+        ResultSet rs = statement.executeQuery("SELECT * FROM NAMES;");
+        while (rs.next()) {
+            allNames.add(rs.getString("NAME"));
         }
-        return getOutputString(date);
+        rs.close();
+        statement.close();
+
+        return allNames;
+    }
+
+    public List<String> addName(String name) throws SQLException, DatabaseDisconnectedException {
+        checkConnection();
+        PreparedStatement preparedStatement = null;
+
+        preparedStatement = connection.prepareStatement("INSERT INTO NAMES(NAME) VALUES (?)");
+        if (!getAllNames().contains(name) && !name.isEmpty()) {
+            preparedStatement.setString(1, name);
+            preparedStatement.executeUpdate();
+        }
+        preparedStatement.close();
+
+        return getAllNames();
+    }
+
+    public List<String> deleteName(String name) throws DatabaseDisconnectedException, SQLException {
+        checkConnection();
+        PreparedStatement preparedStatement = null;
+        preparedStatement = connection.prepareStatement("DELETE FROM NAMES WHERE NAME = ?");
+        preparedStatement.setString(1, name);
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
+
+        return getAllNames();
+    }
+
+    public void checkConnection() throws DatabaseDisconnectedException {
+        if (connection == null) {
+            throw new DatabaseDisconnectedException("Database connection not established.");
+        }
+    }
+
+    public void closeConnections() throws SQLException {
+        DatabaseInitialization.closeDatabaseConnection(connection);
     }
 }
