@@ -1,6 +1,8 @@
 package helloWorld;
 
-public class DatabaseDisconnectedException extends Exception {
+import java.net.ConnectException;
+
+public class DatabaseDisconnectedException extends ConnectException {
     public DatabaseDisconnectedException(String message) {
         super(message);
     }
