@@ -2,4 +2,6 @@ language: java
 
 jdk:
   - oraclejdk8
-script: ant compile.module.helloworldtomcat.tests
+script:
+  - ant compile.module.helloworldtomcat.tests
+  - ant compile.module.helloworldtomcat.production
