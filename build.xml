@@ -109,18 +109,6 @@
     <pathelement location="/Users/malavika.vasudevan/WebProjects/tomcat/lib/jsp-api.jar"/>
     <pathelement location="/Users/malavika.vasudevan/WebProjects/tomcat/lib/servlet-api.jar"/>
   </path>
-  <!-- Register Custom Compiler Taskdefs -->
-  <property name="javac2.home" value="${idea.home}/lib"/>
-  <path id="javac2.classpath">
-    <pathelement location="${javac2.home}/javac2.jar"/>
-    <pathelement location="${javac2.home}/jdom.jar"/>
-    <pathelement location="${javac2.home}/asm-all.jar"/>
-    <pathelement location="${javac2.home}/jgoodies-forms.jar"/>
-  </path>
-  <target name="register.custom.compilers">
-    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
-    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
-  </target>
   
   <!-- Modules -->
   
@@ -133,7 +121,8 @@
   <property name="module.jdk.home.helloworldtomcat" value="${project.jdk.home}"/>
   <property name="module.jdk.bin.helloworldtomcat" value="${project.jdk.bin}"/>
   <property name="module.jdk.classpath.helloworldtomcat" value="${project.jdk.classpath}"/>
-  
+  <property name="idea.home" value="${basedir}/"/>
+
   <property name="compiler.args.helloworldtomcat" value="-encoding UTF-8 -source 1.8 -target 1.8 ${compiler.args}"/>
   
   <property name="helloworldtomcat.output.dir" value="${module.helloworldtomcat.basedir}/out/production/HelloWorldTomcat"/>
@@ -196,15 +185,15 @@
   
   <target name="compile.module.helloworldtomcat" depends="compile.module.helloworldtomcat.production,compile.module.helloworldtomcat.tests" description="Compile module HelloWorldTomcat"/>
   
-  <target name="compile.module.helloworldtomcat.production" depends="register.custom.compilers" description="Compile module HelloWorldTomcat; production classes">
+  <target name="compile.module.helloworldtomcat.production" description="Compile module HelloWorldTomcat; production classes">
     <mkdir dir="${helloworldtomcat.output.dir}"/>
-    <javac2 destdir="${helloworldtomcat.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.helloworldtomcat}/javac">
+    <javac destdir="${helloworldtomcat.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.helloworldtomcat}/javac">
       <compilerarg line="${compiler.args.helloworldtomcat}"/>
       <bootclasspath refid="helloworldtomcat.module.bootclasspath"/>
       <classpath refid="helloworldtomcat.module.production.classpath"/>
       <src refid="helloworldtomcat.module.sourcepath"/>
       <patternset refid="excluded.from.compilation.helloworldtomcat"/>
-    </javac2>
+    </javac>
     
     <copy todir="${helloworldtomcat.output.dir}">
       <fileset dir="${module.helloworldtomcat.basedir}/src/main">
@@ -214,15 +203,15 @@
     </copy>
   </target>
   
-  <target name="compile.module.helloworldtomcat.tests" depends="register.custom.compilers,compile.module.helloworldtomcat.production" description="compile module HelloWorldTomcat; test classes" unless="skip.tests">
+  <target name="compile.module.helloworldtomcat.tests" depends="compile.module.helloworldtomcat.production" description="compile module HelloWorldTomcat; test classes" unless="skip.tests">
     <mkdir dir="${helloworldtomcat.testoutput.dir}"/>
-    <javac2 destdir="${helloworldtomcat.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.helloworldtomcat}/javac">
+    <javac destdir="${helloworldtomcat.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.helloworldtomcat}/javac">
       <compilerarg line="${compiler.args.helloworldtomcat}"/>
       <bootclasspath refid="helloworldtomcat.module.bootclasspath"/>
       <classpath refid="helloworldtomcat.module.classpath"/>
       <src refid="helloworldtomcat.module.test.sourcepath"/>
       <patternset refid="excluded.from.compilation.helloworldtomcat"/>
-    </javac2>
+    </javac>
     
     <copy todir="${helloworldtomcat.testoutput.dir}">
       <fileset dir="${module.helloworldtomcat.basedir}/src/test">
