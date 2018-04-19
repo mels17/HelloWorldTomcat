@@ -241,7 +241,8 @@
     <mkdir dir="${artifacts.temp.dir}"/>
     <property name="temp.jar.path.HelloWorldTomcat_war.war" value="${artifacts.temp.dir}/HelloWorldTomcat_war.war"/>
   </target>
-  
+
+  <property name="artifact.output.helloworldtomcat:war_exploded" value=""/>
   <target name="clean.artifact.helloworldtomcat:war_exploded" description="clean HelloWorldTomcat:war exploded artifact output">
     <delete dir="${artifact.output.helloworldtomcat:war_exploded}"/>
   </target>
