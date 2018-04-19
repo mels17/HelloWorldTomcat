@@ -11,21 +11,3 @@ script:
 
 services:
   - postgresql
-
-deploy:
- - provider: s3
-   access_key_id: $AWS_ACCESS_KEY
-   secret_access_key: $AWS_SECRET_KEY
-   local_dir: travis_upload
-   skip_cleanup: true
-   bucket: mel-helloworld-bucket
-   region: ap-southeast-2
- - provider: codedeploy
-   access_key_id: $AWS_ACCESS_KEY
-   secret_access_key: $AWS_SECRET_KEY
-   bucket: mel-helloworld-bucket
-   key: helloworldtomcat.zip
-   bundle_type: zip
-   application: HelloWorldTomcat
-   deployment_group: fma-mel
-   region: ap-southeast-2
