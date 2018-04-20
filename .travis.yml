@@ -8,6 +8,8 @@ script:
   - zip -r helloworldtomcat *
   - mkdir -p travis_upload
   - mv helloworldtomcat.zip travis_upload/helloworldtomcat.zip
+  - jar -cvf helloWorldTomcat.war *
+  - mv helloWorldTomcat.war travis_upload/helloWorldTomcat.war
 
 services:
   - postgresql
@@ -24,7 +26,7 @@ deploy:
     access_key_id: $AWS_ACCESS_KEY
     secret_access_key: $AWS_SECRET_KEY
     bucket: mel-helloworld-bucket
-    key: helloworldtomcat.zip
+    key: helloWorldTomcat.war
     bundle_type: zip
     application: HelloWorldTomcat
     deployment_group: fma-mel
