@@ -5,9 +5,7 @@ jdk:
 script:
   - ant compile.module.helloworldtomcat.tests
   - ant compile.module.helloworldtomcat.production
-  - zip -r helloworldtomcat *
   - mkdir -p travis_upload
-  - mv helloworldtomcat.zip travis_upload/helloworldtomcat.zip
   - jar -cvf helloWorldTomcat.war *
   - mv helloWorldTomcat.war travis_upload/helloWorldTomcat.war
 
@@ -27,7 +25,7 @@ deploy:
     secret_access_key: $AWS_SECRET_KEY
     bucket: mel-helloworld-bucket
     key: helloWorldTomcat.war
-    bundle_type: zip
+    bundle_type: war
     application: HelloWorldTomcat
     deployment_group: fma-mel
     region: ap-southeast-2
