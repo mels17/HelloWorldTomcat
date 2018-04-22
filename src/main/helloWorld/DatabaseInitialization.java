@@ -20,9 +20,9 @@ public class DatabaseInitialization {
         // "jdbc:postgresql://localhost:5432/" + dbName, dbUser, dbUserPassword
         // "jdbc:postgresql://mel-helloworld-instance.czggd3g4trrj.ap-southeast-2.rds.amazonaws.com:5432/worldNames?user=malavika&password=password"
 
-        String connectionString = "jdbc:postgresql://" + dbHostname + ":" +dbPort + "/" + name + "?user=" + dbUsername + "&password=" + dbPassword;
+//        String connectionString = "jdbc:postgresql://" + dbHostname + ":" +dbPort + "/" + name + "?user=" + dbUsername + "&password=" + dbPassword;
         connection = DriverManager
-                .getConnection(connectionString);
+                .getConnection("jdbc:postgresql://mel-helloworld-instance.czggd3g4trrj.ap-southeast-2.rds.amazonaws.com:5432/worldNames?user=malavika&password=password");
         return connection;
     }
 
