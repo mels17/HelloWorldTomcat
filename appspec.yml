@@ -3,6 +3,3 @@ os: linux
 files:
   - source: ./
     destination: /usr/share/tomcat7/webapps/helloWorld
-
-  - source: ./out/artifacts/HelloWorldTomcat_war
-    destination: /usr/share/tomcat7/webapps
