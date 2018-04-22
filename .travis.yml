@@ -5,8 +5,10 @@ jdk:
 script:
   - ant compile.module.helloworldtomcat.tests
   - ant compile.module.helloworldtomcat.production
-  - zip -r helloworldtomcat *
   - mkdir -p travis_upload
+  - jar -cvf helloWorldTomcat.war *
+  - mv helloWorldTomcat.war travis_upload/helloWorldTomcat.war
+  - zip -r helloworldtomcat *
   - mv helloworldtomcat.zip travis_upload/helloworldtomcat.zip
 
 services:
