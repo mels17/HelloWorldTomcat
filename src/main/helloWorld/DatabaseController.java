@@ -9,7 +9,7 @@ public class DatabaseController implements Repository {
     private Connection connection;
 
     public DatabaseController() throws SQLException, ClassNotFoundException {
-        this.connection = DatabaseInitialization.init("worldNames", "malavika", "password");
+        this.connection = DatabaseInitialization.init("worldnames", "admin", "password");
     }
 
     public List<String> getAllNames() throws DatabaseDisconnectedException, SQLException {

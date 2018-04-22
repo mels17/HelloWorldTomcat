@@ -3,5 +3,5 @@ os: linux
 files:
   - source: ./
     destination: /usr/share/tomcat7/webapps/helloWorld
-  - source: travis_upload/helloWorldTomcat.war
+  - source: ./out/artifacts/HelloWorldTomcat_war/HelloWorldTomcat_war.war
     destination: /usr/share/tomcat7/webapps
