@@ -1,5 +1,8 @@
 package helloWorld;
 
+import com.amazonaws.services.simplesystemsmanagement.AWSSimpleSystemsManagement;
+import com.amazonaws.services.simplesystemsmanagement.AWSSimpleSystemsManagementClient;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -11,18 +14,20 @@ public class DatabaseInitialization {
         Class.forName("org.postgresql.Driver");
         System.out.println("Driver loaded!");
         System.out.println("Connecting to database...");
-        String dbHostname = System.getProperty("DB_HOSTNAME");
-        String dbPort = System.getProperty("DB_PORT");
-        String dbUsername = System.getProperty("DB_USERNAME");
-        String dbPassword = System.getProperty("DB_PASSWORD");
-        String name = System.getProperty("DB_NAME");
+        String dbHostname = "jdbc:postgresql://mel-helloworld-instance.czggd3g4trrj.ap-southeast-2.rds.amazonaws.com";
+        String dbPort = "5432";
+        String dbUsername = "malavika";
+        String dbPassword = "password";
+        String name = "worldNames";
         // com.postgresql.jdbc.Driver
         // "jdbc:postgresql://localhost:5432/" + dbName, dbUser, dbUserPassword
         // "jdbc:postgresql://mel-helloworld-instance.czggd3g4trrj.ap-southeast-2.rds.amazonaws.com:5432/worldNames?user=malavika&password=password"
 
 //        String connectionString = "jdbc:postgresql://" + dbHostname + ":" +dbPort + "/" + name + "?user=" + dbUsername + "&password=" + dbPassword;
         connection = DriverManager
-                .getConnection("jdbc:postgresql://mel-helloworld-instance.czggd3g4trrj.ap-southeast-2.rds.amazonaws.com:5432/worldNames?user=malavika&password=password");
+                .getConnection(dbHostname + ":" + dbPort + "/" + name + "?user=" + dbUsername + "&password=" + dbPassword);
+
+
         return connection;
     }
 
