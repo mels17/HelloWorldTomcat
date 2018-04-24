@@ -21,7 +21,7 @@ public class DatabaseInitialization {
         String dbUsername = "malavika";
         dbUsername = System.getenv("DB_USER");
         String dbPassword = "password";
-//        dbPassword = System.getenv("DB_PWD");
+        dbPassword = System.getenv("DB_PWD");
         String name = "worldNames";
         // com.postgresql.jdbc.Driver
         // "jdbc:postgresql://localhost:5432/" + dbName, dbUser, dbUserPassword
