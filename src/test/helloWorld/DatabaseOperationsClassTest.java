@@ -33,18 +33,13 @@ public class DatabaseOperationsClassTest {
 
     @Test
     public void givenNameReturnsListWithAddedName() throws Exception {
-
-        List<String> expectedResult = Arrays.asList("Mel", "Rose", "PostName");
-
-        Assert.assertEquals(expectedResult, dbOps.addName("PostName"));
+        Assert.assertTrue(dbOps.addName("PostName").contains("PostName"));
         dbOps.deleteName("PostName");
     }
 
     @Test
     public void givenNameDeletesThatName() throws Exception {
-        List<String> expectedResult = Arrays.asList("Mel", "Rose");
-
         dbOps.addName("DeleteName");
-        Assert.assertEquals(expectedResult, dbOps.deleteName("DeleteName"));
+        Assert.assertFalse(dbOps.deleteName("DeleteName").contains("DeleteName"));
     }
 }

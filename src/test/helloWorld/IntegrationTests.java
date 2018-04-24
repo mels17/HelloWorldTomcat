@@ -7,6 +7,7 @@ import org.junit.Test;
 import javax.servlet.*;
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -120,7 +121,7 @@ public class IntegrationTests {
         in.close();
 
         Assert.assertEquals(expectedPostStatusCode, status);
-        Assert.assertEquals(expectedPostResult, postContent.toString());
+        Assert.assertTrue(postContent.toString().contains("DeleteName"));
 
         postConnection.disconnect();
 
@@ -180,5 +181,89 @@ public class IntegrationTests {
         deleteConnection.disconnect();
 
         Assert.assertEquals(expectedDeleteOutput, deleteContent.toString());
+    }
+
+    @Test
+    public void whenPutRequestWithOldAndNewNameReturnListAfterUpdating() throws IOException {
+        StringBuffer postContent = new StringBuffer();
+
+        String inputLine;
+
+        URL postUrl = new URL("http://localhost:8000");
+        HttpURLConnection postConnection = (HttpURLConnection) postUrl.openConnection();
+
+        postConnection.setRequestMethod("POST");
+
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("name", "Name");
+
+        postConnection.setDoOutput(true);
+        DataOutputStream out = new DataOutputStream(postConnection.getOutputStream());
+        out.writeBytes(ParameterStringBuilder.getParamsString(parameters));
+        out.flush();
+        out.close();
+
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(postConnection.getInputStream())
+        );
+
+
+        while((inputLine = in.readLine()) != null) {
+            postContent.append(inputLine);
+        }
+
+        in.close();
+        postConnection.disconnect();
+
+        URL putURL = new URL("http://localhost:8000?oldName=Name&newName=updatedName");
+
+        HttpURLConnection putConnection = (HttpURLConnection) putURL.openConnection();
+
+        putConnection.setDoOutput(true);
+        putConnection.setRequestMethod("PUT");
+
+
+        int putStatusCode = putConnection.getResponseCode();
+        StringBuffer putContent = new StringBuffer();
+
+        try {
+            BufferedReader inPut = new BufferedReader(
+                    new InputStreamReader(putConnection.getInputStream())
+            );
+            while((inputLine = inPut.readLine()) != null) {
+                putContent.append(inputLine);
+            }
+            inPut.close();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        putConnection.disconnect();
+
+        Assert.assertEquals(putStatusCode, 200);
+        Assert.assertTrue(putContent.toString().contains("updatedName"));
+
+        URL deleteURL = new URL("http://localhost:8000?name=updatedName");
+
+        HttpURLConnection deleteConnection = (HttpURLConnection) deleteURL.openConnection();
+
+        deleteConnection.setDoOutput(true);
+        deleteConnection.setRequestMethod("DELETE");
+
+        StringBuffer deleteContent = new StringBuffer();
+
+        try {
+            BufferedReader inDel = new BufferedReader(
+                    new InputStreamReader(deleteConnection.getInputStream())
+            );
+            while((inputLine = inDel.readLine()) != null) {
+                deleteContent.append(inputLine);
+            }
+            inDel.close();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        deleteConnection.disconnect();
     }
 }
