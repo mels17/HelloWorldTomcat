@@ -19,7 +19,7 @@ public class DatabaseInitialization {
         String dbHostname = "jdbc:postgresql://mel-helloworld-instance.czggd3g4trrj.ap-southeast-2.rds.amazonaws.com";
         String dbPort = "5432";
         String dbUsername = "malavika";
-        dbUsername = System.getProperty("DB_USERNAME");
+        dbUsername = System.getenv("DB_USER");
         String dbPassword = "password";
 //        dbPassword = System.getenv("DB_PWD");
         String name = "worldNames";
