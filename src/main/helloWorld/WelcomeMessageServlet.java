@@ -43,7 +43,6 @@ public class WelcomeMessageServlet extends HttpServlet {
     }
 
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        System.out.println("Here");
         String[] name = request.getParameterValues("name");
         PrintWriter writer = response.getWriter();
 
@@ -51,6 +50,20 @@ public class WelcomeMessageServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
         ServiceResult result = WelcomeMessageServletService.deleteName(dbController, name[0]);
+
+        writer.println(result.getMessage());
+        response.setStatus(result.getStatusCode());
+    }
+
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String[] oldName = request.getParameterValues("oldName");
+        String[] newName = request.getParameterValues("newName");
+        PrintWriter writer = response.getWriter();
+
+        response.setContentType("text/html");
+        response.setCharacterEncoding("UTF-8");
+
+        ServiceResult result = WelcomeMessageServletService.updateName(dbController, oldName[0], newName[0]);
 
         writer.println(result.getMessage());
         response.setStatus(result.getStatusCode());

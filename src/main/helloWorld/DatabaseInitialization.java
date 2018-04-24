@@ -27,6 +27,9 @@ public class DatabaseInitialization {
         connection = DriverManager
                 .getConnection(dbHostname + ":" + dbPort + "/" + name + "?user=" + dbUsername + "&password=" + dbPassword);
 
+//        connection = DriverManager
+//                .getConnection("jdbc:postgresql://localhost:5432/" + dbName, dbUser, dbUserPassword);
+
 
         return connection;
     }

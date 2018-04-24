@@ -1,5 +1,6 @@
 package helloWorld;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,11 @@ public class MockRepositoryClass implements Repository{
 
     @Override
     public List<String> deleteName(String name) {
+        return names;
+    }
+
+    @Override
+    public List<String> updateName(String oldName, String newName) throws SQLException, DatabaseDisconnectedException {
         return names;
     }
 

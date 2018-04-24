@@ -39,4 +39,10 @@ public class DatabaseService implements Service {
         }
         return getOutputString(date);
     }
+
+    @Override
+    public String updateName(String oldName, String newName, Date date) throws Exception {
+        repository.updateName(oldName, newName);
+        return getOutputString(date);
+    }
 }

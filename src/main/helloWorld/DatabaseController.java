@@ -53,6 +53,19 @@ public class DatabaseController implements Repository {
         return getAllNames();
     }
 
+    @Override
+    public List<String> updateName(String oldName, String newName) throws SQLException, DatabaseDisconnectedException {
+        checkConnection();
+        PreparedStatement preparedStatement = null;
+        preparedStatement = connection.prepareStatement("UPDATE NAMES SET NAME = ? WHERE ID = (SELECT ID FROM NAMES WHERE NAME = ?);");
+        preparedStatement.setString(1, newName);
+        preparedStatement.setString(2, oldName);
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
+
+        return getAllNames();
+    }
+
     public void checkConnection() throws DatabaseDisconnectedException {
         if (connection == null) {
             throw new DatabaseDisconnectedException("Database connection not established.");

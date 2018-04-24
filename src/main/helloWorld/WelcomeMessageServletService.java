@@ -66,4 +66,25 @@ public class WelcomeMessageServletService {
         result.setStatusCode(statusCode);
         return result;
     }
+
+    public static ServiceResult updateName(Service dbService, String oldName, String newName) {
+        ServiceResult result = new ServiceResult();
+        String responseString = "";
+        int statusCode = 500;
+        try {
+            responseString = dbService.updateName(oldName, newName, new Date());
+            statusCode = 200;
+        } catch (SQLException e) {
+            responseString = "Update request failed: Database Not Found.";
+        } catch (ClassNotFoundException e) {
+            responseString = "Update request failed: Database Not Found.";
+        } catch(DatabaseDisconnectedException e) {
+            responseString = "Update request failed: Database disconnected.";
+        } catch (Exception e) {
+            responseString = e.toString();
+        }
+        result.setMessage(responseString);
+        result.setStatusCode(statusCode);
+        return result;
+    }
 }

@@ -27,6 +27,11 @@ public class MockDatabaseService implements Service {
         return getOutput();
     }
 
+    @Override
+    public String updateName(String oldName, String newName, Date date) throws Exception {
+        return getOutput();
+    }
+
     private String getOutput() throws Exception{
         if(output.equals("1")) throw new SQLException();
         else if(output.equals("2")) throw new ClassNotFoundException();
