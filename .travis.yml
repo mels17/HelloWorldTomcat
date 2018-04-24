@@ -10,6 +10,7 @@ script:
   - mv helloworldtomcat.zip travis_upload/helloworldtomcat.zip
   - cp ./out/artifacts/HelloWorldTomcat_war/HelloWorldTomcat_war.war travis_upload
 
+
 services:
   - postgresql
 
