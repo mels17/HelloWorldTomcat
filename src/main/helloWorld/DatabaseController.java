@@ -2,6 +2,7 @@ package helloWorld;
 // Checking
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DatabaseController implements Repository {
@@ -32,20 +33,21 @@ public class DatabaseController implements Repository {
         checkConnection();
         PreparedStatement preparedStatement = null;
 
-        preparedStatement = connection.prepareStatement("INSERT INTO NAMES(NAME) VALUES (?)");
-        if (!getAllNames().contains(name) && !name.isEmpty()) {
-            preparedStatement.setString(1, name);
-            preparedStatement.executeUpdate();
-        }
-        preparedStatement.close();
-
-        return getAllNames();
+        preparedStatement = connection.prepareStatement("INSERT INTO NAMES(NAME) VALUES (?);");
+        return Arrays.asList("Ab", "Cd");
+//        if (!getAllNames().contains(name) && !name.isEmpty()) {
+//            preparedStatement.setString(1, name);
+//            preparedStatement.executeUpdate();
+//        }
+//        preparedStatement.close();
+//
+//        return getAllNames();
     }
 
     public List<String> deleteName(String name) throws DatabaseDisconnectedException, SQLException {
         checkConnection();
         PreparedStatement preparedStatement = null;
-        preparedStatement = connection.prepareStatement("DELETE FROM NAMES WHERE NAME = ?");
+        preparedStatement = connection.prepareStatement("DELETE FROM NAMES WHERE NAME = ?;");
         preparedStatement.setString(1, name);
         preparedStatement.executeUpdate();
         preparedStatement.close();

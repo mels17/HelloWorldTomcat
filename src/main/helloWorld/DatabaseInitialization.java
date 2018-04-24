@@ -24,11 +24,11 @@ public class DatabaseInitialization {
         // com.postgresql.jdbc.Driver
         // "jdbc:postgresql://localhost:5432/" + dbName, dbUser, dbUserPassword
         // "jdbc:postgresql://mel-helloworld-instance.czggd3g4trrj.ap-southeast-2.rds.amazonaws.com:5432/worldNames?user=malavika&password=password"
-        connection = DriverManager
-                .getConnection(dbHostname + ":" + dbPort + "/" + name + "?user=" + dbUsername + "&password=" + dbPassword);
-
 //        connection = DriverManager
-//                .getConnection("jdbc:postgresql://localhost:5432/" + dbName, dbUser, dbUserPassword);
+//                .getConnection(dbHostname + ":" + dbPort + "/" + name + "?user=" + dbUsername + "&password=" + dbPassword);
+
+        connection = DriverManager
+                .getConnection("jdbc:postgresql://localhost:5432/" + dbName, dbUser, dbUserPassword);
 
 
         return connection;
