@@ -1,5 +1,7 @@
 package helloWorld;
 
+import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.auth.InstanceProfileCredentialsProvider;
 import com.amazonaws.services.simplesystemsmanagement.AWSSimpleSystemsManagement;
 import com.amazonaws.services.simplesystemsmanagement.AWSSimpleSystemsManagementClient;
 
@@ -17,7 +19,9 @@ public class DatabaseInitialization {
         String dbHostname = "jdbc:postgresql://mel-helloworld-instance.czggd3g4trrj.ap-southeast-2.rds.amazonaws.com";
         String dbPort = "5432";
         String dbUsername = "malavika";
+        dbUsername = System.getProperty("DB_USER");
         String dbPassword = "password";
+        dbPassword = System.getProperty("DB_PWD");
         String name = "worldNames";
         // com.postgresql.jdbc.Driver
         // "jdbc:postgresql://localhost:5432/" + dbName, dbUser, dbUserPassword
