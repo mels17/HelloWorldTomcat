@@ -36,10 +36,12 @@ public class WelcomeMessageServlet extends HttpServlet {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
 
-        ServiceResult result = WelcomeMessageServletService.postName(dbController, name[0]);
-
-        writer.println(result.getMessage());
-        response.setStatus(result.getStatusCode());
+//        ServiceResult result = WelcomeMessageServletService.postName(dbController, name[0]);
+        ServiceResult sr = new ServiceResult();
+        sr.setStatusCode(200);
+        sr.setMessage(name[0]);
+//        writer.println(result.getMessage());
+//        response.setStatus(result.getStatusCode());
     }
 
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
