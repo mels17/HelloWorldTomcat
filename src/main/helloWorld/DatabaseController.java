@@ -34,14 +34,13 @@ public class DatabaseController implements Repository {
         PreparedStatement preparedStatement = null;
 
         preparedStatement = connection.prepareStatement("INSERT INTO NAMES(NAME) VALUES (?);");
-        return Arrays.asList("Ab", "Cd");
-//        if (!getAllNames().contains(name) && !name.isEmpty()) {
-//            preparedStatement.setString(1, name);
-//            preparedStatement.executeUpdate();
-//        }
-//        preparedStatement.close();
-//
-//        return getAllNames();
+        if (!getAllNames().contains(name) && !name.isEmpty()) {
+            preparedStatement.setString(1, name);
+            preparedStatement.executeUpdate();
+        }
+        preparedStatement.close();
+
+        return getAllNames();
     }
 
     public List<String> deleteName(String name) throws DatabaseDisconnectedException, SQLException {
